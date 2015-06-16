@@ -7,7 +7,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.theoakteam.sunny_pc.oakicare.CreateiCareProfile;
 import com.theoakteam.sunny_pc.oakicare.Module.Profile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sunny_PC on 6/10/2015.
@@ -36,25 +40,19 @@ public class ProfileDataBase {
         }
     }
 
+    public ProfileDataBase(CreateiCareProfile createiCareProfile) {
+
+
+    }
+
+
     private void open() throws SQLException{
         mSqLiteDatabase=mdDBhelper.getWritableDatabase();
     }
 
     public Profile creatNewProflie(String mName, String mHeigh, String mWeight, String mBlood) {
         ContentValues values = new ContentValues();
-//        values.put(DBHelper.COLUMN_EMPLOYEE_NAME, name);
-//        values.put(DBHelper.COLUMN_EMPLOYEE_ADDRESS, address);
-//        values.put(DBHelper.COLUMN_EMPLOYEES_WEBSITE, website);
-//        values.put(DBHelper.COLUMN_EMPLOYEES_PHONE_NUMBER, phoneNumber);
-//        long insertId = mDatabase
-//                .insert(DBHelper.TABLE_EMPLOYEES, null, values);
-//        Cursor cursor = mDatabase.query(DBHelper.TABLE_EMPLOYEES, mAllColumns,
-//                DBHelper.COLUMN_EMPLOYEE_ID + " = " + insertId, null, null,
-//                null, null);
-//        cursor.moveToFirst();
-//        Employee newEmployee = cursorToEmployee(cursor);
-//        cursor.close();
-//        return newEmployee;
+
 
         values.put(mdDBhelper.COLUMN_PROFLIE_NAME,mName);
         values.put(mdDBhelper.COLUMN_PROFLIE_HEGHT,mHeigh);
@@ -79,4 +77,43 @@ public class ProfileDataBase {
         profile.setmBlood(cursor.getString(4));
         return profile;
     }
+
+
+
+
+
+    public List<Profile>getAllProfiles(){
+        List<Profile>listProfiles=new ArrayList<Profile>();
+        Cursor cursor=mSqLiteDatabase.query(mdDBhelper.TABLE_PROFILE,mAllColumns,null,null,null,null,null);
+        if(cursor!=null)
+        {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                Profile profile=cursorToProfile(cursor);
+                listProfiles.add(profile);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+
+        return listProfiles;
+
+
+    }
+
+//    public Employee getEmployeeById(long id) {
+//        Cursor cursor = mDatabase.query(DBHelper.TABLE_EMPLOYEES, mAllColumns,
+//                DBHelper.COLUMN_EMPLOYEE_ID + " = ?",
+//                new String[]{String.valueOf(id)}, null, null, null);
+//        if (cursor != null) {
+//            cursor.moveToFirst();
+//        }
+//
+//        Employee employee = cursorToEmployee(cursor);
+//        return employee;
+//    }
+
+
+
+    
 }

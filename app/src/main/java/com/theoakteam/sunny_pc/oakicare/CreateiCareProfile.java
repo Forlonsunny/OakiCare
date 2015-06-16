@@ -9,17 +9,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.theoakteam.sunny_pc.oakicare.Module.Profile;
+import com.theoakteam.sunny_pc.oakicare.ProfileDabase.ProfileDataBase;
 
 /**
  * Created by Sunny_PC on 6/10/2015.
  */
 public class CreateiCareProfile extends Activity {
     EditText getTxt_pName,getTxt_pHeight,getTxt_pweight,getTxt_pBloodGroup;
+    private ProfileDataBase mProfileDataBase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createi_crea_profile_xml);
         intilizationOfViews();
+        this.mProfileDataBase=new ProfileDataBase(this);
 
     }
 
@@ -37,7 +40,8 @@ public class CreateiCareProfile extends Activity {
         if(!TextUtils.isEmpty(prName) && !TextUtils.isEmpty(prHeight) && !TextUtils.isEmpty(prWeight) &&
                 !TextUtils.isEmpty(prBloodgropup) )
         {
-            Profile creatNewProflie=mProfileData.creatNewProflie(prName);
+            Profile creatNewProflie=mProfileDataBase.creatNewProflie(prName.toString(),prHeight.toString(),prWeight.toString(),prBloodgropup.toString());
+
         }
         else
         {
